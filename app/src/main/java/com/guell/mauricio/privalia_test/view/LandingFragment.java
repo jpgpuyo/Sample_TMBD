@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -74,6 +76,10 @@ public class LandingFragment extends Fragment {
         final RecyclerViewMargin decoration = new RecyclerViewMargin(distanceBetweenItems, NUMBER_OF_COLUMNS);
         cardsRecyclerView.addItemDecoration(decoration);
         return view;
+    }
+
+    public static LandingFragment newInstance() {
+        return new LandingFragment();
     }
 
     public void initializePage() {
@@ -221,20 +227,33 @@ public class LandingFragment extends Fragment {
     }
 
     private void openNoResultsFragment() {
-        final NoResultsFragment noResultsFragment = new NoResultsFragment();
+        final NoResultsFragment noResultsFragment = NoResultsFragment.newInstance();
         final Bundle args = new Bundle();
         args.putString(queryTextKey, this.queryText);
         noResultsFragment.setArguments(args);
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, noResultsFragment)
-                .commit();
+        try {
+            getHostFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, noResultsFragment)
+                    .commit();
+        } catch (final NullPointerException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void openNoInternetFragment() {
-        getFragmentManager()
+        getHostFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container, new NoInternetFragment())
+                .replace(R.id.container, NoInternetFragment.newInstance())
                 .commit();
+    }
+
+    public FragmentManager getHostFragmentManager() {
+        FragmentManager manager = getFragmentManager();
+        if (manager == null && isAdded()) {
+            manager = getActivity().getSupportFragmentManager();
+        }
+        return manager;
     }
 }

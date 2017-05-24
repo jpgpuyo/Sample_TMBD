@@ -44,4 +44,8 @@ public class NoResultsFragment extends Fragment {
         noResultsTextView.setText(noResultsForCompleteText);
         return view;
     }
+
+    public static NoResultsFragment newInstance() {
+        return new NoResultsFragment();
+    }
 }

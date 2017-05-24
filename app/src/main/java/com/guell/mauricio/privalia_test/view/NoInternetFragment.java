@@ -40,6 +40,10 @@ public class NoInternetFragment extends Fragment {
         return view;
     }
 
+    public static NoInternetFragment newInstance() {
+        return new NoInternetFragment();
+    }
+
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);

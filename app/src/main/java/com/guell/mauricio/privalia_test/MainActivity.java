@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NoInternetFragmen
     }
 
     private void openLandingFragment() {
-        final LandingFragment landingFragment = new LandingFragment();
+        final LandingFragment landingFragment = LandingFragment.newInstance();
         final Bundle args = new Bundle();
         if(mSearchView == null) {
             args.putString(queryTextKey, "");
