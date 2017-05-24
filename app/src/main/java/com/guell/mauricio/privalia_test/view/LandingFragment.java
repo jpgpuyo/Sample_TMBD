@@ -181,10 +181,7 @@ public class LandingFragment extends Fragment {
             public void onFailure(@NonNull final Call<MovieResponse> call,
                                   @NonNull final Throwable t) {
                 loadingMoviesBar.setVisibility(View.GONE);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, new NoInternetFragment())
-                        .commit();
+                openNoInternetFragment();
                 t.printStackTrace();
             }
         });
@@ -243,10 +240,14 @@ public class LandingFragment extends Fragment {
     }
 
     private void openNoInternetFragment() {
-        getHostFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, NoInternetFragment.newInstance())
-                .commit();
+        try {
+            getHostFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, NoInternetFragment.newInstance())
+                    .commit();
+        } catch (final NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     public FragmentManager getHostFragmentManager() {
