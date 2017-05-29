@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Privalia-test</string>
+    <string name="app_name">Sample-TMBD</string>
     <string name="tmbd_movies">TMBD Movies</string>
     <string name="search">Search</string>
     <string name="sample_overview">Una joven soñadora y romántica llamada Bella, vive en una pequeña aldea junto a su padre, un inventor de artilugios, al que algunos consideran un anciano demente.Un día su padre se marcha a una feria para exponer sus inventos, pero se pierde en el camino y acaba en un grande y viejo castillo.</string>

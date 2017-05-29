@@ -1,2 +1,10 @@
-# Privalia-test
-Privalia test, interacting with TMDB API
+Sample code, interacting with TMBD API.
+Using:
+ Retrofit,
+ Picasso,
+ Material Design,
+ Cardviews,
+ RecyclerViews,
+ Butterknife,
+ JUnit testing...
+

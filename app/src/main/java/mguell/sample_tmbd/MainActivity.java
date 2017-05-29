@@ -1,4 +1,4 @@
-package com.guell.mauricio.privalia_test;
+package mguell.sample_tmbd;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.guell.mauricio.privalia_test.view.LandingFragment;
-import com.guell.mauricio.privalia_test.view.NoInternetFragment;
-import com.guell.mauricio.privalia_test.view.NoResultsFragment;
+import com.guell.mauricio.sample_tmbd.R;
+
+import mguell.sample_tmbd.view.LandingFragment;
+import mguell.sample_tmbd.view.NoInternetFragment;
+import mguell.sample_tmbd.view.NoResultsFragment;
 
 import butterknife.BindString;
 import butterknife.BindView;

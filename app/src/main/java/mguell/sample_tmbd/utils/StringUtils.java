@@ -1,4 +1,4 @@
-package com.guell.mauricio.privalia_test.utils;
+package mguell.sample_tmbd.utils;
 
 import android.support.annotation.NonNull;
 import android.text.Html;

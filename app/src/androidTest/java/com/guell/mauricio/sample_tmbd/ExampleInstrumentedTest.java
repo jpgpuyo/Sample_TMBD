@@ -1,4 +1,4 @@
-package com.guell.mauricio.privalia_test;
+package com.guell.mauricio.sample_tmbd;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

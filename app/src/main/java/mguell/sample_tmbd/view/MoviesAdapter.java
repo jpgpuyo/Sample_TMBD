@@ -1,4 +1,4 @@
-package com.guell.mauricio.privalia_test.view;
+package mguell.sample_tmbd.view;
 
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.guell.mauricio.privalia_test.R;
-import com.guell.mauricio.privalia_test.model.Movie;
+import com.guell.mauricio.sample_tmbd.R;
+import mguell.sample_tmbd.model.Movie;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 

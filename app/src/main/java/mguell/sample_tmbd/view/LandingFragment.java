@@ -1,11 +1,9 @@
-package com.guell.mauricio.privalia_test.view;
+package mguell.sample_tmbd.view;
 
 import android.os.Bundle;
-import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,11 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
-import com.guell.mauricio.privalia_test.R;
-import com.guell.mauricio.privalia_test.network.MovieResponse;
-import com.guell.mauricio.privalia_test.network.RestClient;
-import com.guell.mauricio.privalia_test.utils.Constants;
-import com.guell.mauricio.privalia_test.utils.RecyclerViewMargin;
+import com.guell.mauricio.sample_tmbd.R;
+
+import mguell.sample_tmbd.network.MovieResponse;
+import mguell.sample_tmbd.network.RestClient;
+import mguell.sample_tmbd.utils.Constants;
+import mguell.sample_tmbd.utils.RecyclerViewMargin;
 
 import butterknife.BindDimen;
 import butterknife.BindString;

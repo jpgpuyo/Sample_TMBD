@@ -1,4 +1,4 @@
-package com.guell.mauricio.privalia_test.utils;
+package mguell.sample_tmbd.utils;
 
 /**
  * Created by Mauricio on 16/05/2017.

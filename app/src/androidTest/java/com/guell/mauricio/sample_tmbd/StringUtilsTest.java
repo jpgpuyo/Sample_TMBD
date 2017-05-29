@@ -1,8 +1,8 @@
-package com.guell.mauricio.privalia_test;
+package com.guell.mauricio.sample_tmbd;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.guell.mauricio.privalia_test.utils.StringUtils;
+import mguell.sample_tmbd.utils.StringUtils;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

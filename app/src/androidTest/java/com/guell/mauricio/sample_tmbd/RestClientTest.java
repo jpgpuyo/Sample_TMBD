@@ -1,10 +1,10 @@
-package com.guell.mauricio.privalia_test;
+package com.guell.mauricio.sample_tmbd;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.guell.mauricio.privalia_test.network.MovieResponse;
-import com.guell.mauricio.privalia_test.network.RestClient;
-import com.guell.mauricio.privalia_test.utils.Constants;
+import mguell.sample_tmbd.network.MovieResponse;
+import mguell.sample_tmbd.network.RestClient;
+import mguell.sample_tmbd.utils.Constants;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

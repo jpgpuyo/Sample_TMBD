@@ -1,6 +1,5 @@
-package com.guell.mauricio.privalia_test.view;
+package mguell.sample_tmbd.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.guell.mauricio.privalia_test.R;
+import com.guell.mauricio.sample_tmbd.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

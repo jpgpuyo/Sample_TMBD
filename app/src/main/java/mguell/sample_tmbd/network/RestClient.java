@@ -1,6 +1,6 @@
-package com.guell.mauricio.privalia_test.network;
+package mguell.sample_tmbd.network;
 
-import com.guell.mauricio.privalia_test.utils.Constants;
+import mguell.sample_tmbd.utils.Constants;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;

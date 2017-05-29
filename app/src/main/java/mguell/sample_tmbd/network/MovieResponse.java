@@ -1,7 +1,7 @@
-package com.guell.mauricio.privalia_test.network;
+package mguell.sample_tmbd.network;
 
 import com.google.gson.annotations.SerializedName;
-import com.guell.mauricio.privalia_test.model.Movie;
+import mguell.sample_tmbd.model.Movie;
 
 import java.util.ArrayList;
 import java.util.List;

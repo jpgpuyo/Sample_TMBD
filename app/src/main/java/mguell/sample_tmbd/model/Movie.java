@@ -1,8 +1,8 @@
-package com.guell.mauricio.privalia_test.model;
+package mguell.sample_tmbd.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.guell.mauricio.privalia_test.utils.Constants;
-import com.guell.mauricio.privalia_test.utils.StringUtils;
+import mguell.sample_tmbd.utils.Constants;
+import mguell.sample_tmbd.utils.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
