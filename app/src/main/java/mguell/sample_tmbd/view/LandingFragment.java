@@ -1,7 +1,6 @@
 package mguell.sample_tmbd.view;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,17 +15,13 @@ import com.google.gson.Gson;
 import com.guell.mauricio.sample_tmbd.R;
 
 import mguell.sample_tmbd.network.MovieResponse;
-import mguell.sample_tmbd.network.RestClient;
-import mguell.sample_tmbd.utils.Constants;
+import mguell.sample_tmbd.presenter.LandingPresenter;
 import mguell.sample_tmbd.utils.RecyclerViewMargin;
 
 import butterknife.BindDimen;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Represents the main fragment, where all the movies are going to be displayed.
@@ -34,7 +29,7 @@ import retrofit2.Response;
  * Created by Mauricio on 17/05/2017.
  */
 
-public class LandingFragment extends Fragment {
+public class LandingFragment extends Fragment implements LandingPresenter.MoviePresenterListener {
 
     private final String TAG = getClass().getSimpleName();
     private int currentPage;
@@ -54,6 +49,8 @@ public class LandingFragment extends Fragment {
     @BindDimen(R.dimen.distance_between_recycler_view_items)
     public int distanceBetweenItems;
 
+    private LandingPresenter landingPresenter;
+
     @Override
     public View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container,
@@ -62,6 +59,7 @@ public class LandingFragment extends Fragment {
         ButterKnife.bind(this, view);
         initializePage();
         queryText = getArguments().getString(queryTextKey, "");
+        landingPresenter = new LandingPresenter(this);
         if(queryText.isEmpty()) {
             getMoviesByPopularity();
         } else {
@@ -150,40 +148,7 @@ public class LandingFragment extends Fragment {
      */
     public void getMoviesByQuery(final String text) {
         loadingMoviesBar.setVisibility(View.VISIBLE);
-        final RestClient.TMDBService service = RestClient.getTMBDService();
-        final Call<MovieResponse> call = service.moviesByQuery(Constants.TMBD_API_KEY, text, currentPage);
-        Log.d(TAG, "getFilteredMovies call = " + call.request().toString());
-        call.enqueue(new Callback<MovieResponse>() {
-
-            @Override
-            public void onResponse(@NonNull final Call<MovieResponse> call,
-                                   @NonNull final Response<MovieResponse> response) {
-                Log.d(TAG, "getFilteredMovies Status Code = " + response.code());
-                if (response.isSuccessful()) {
-                    final MovieResponse result = response.body();
-                    if (currentPage == 1) {
-                        if(result.getMovies().isEmpty()) {
-                            openNoResultsFragment();
-                        } else {
-                            Log.d(TAG, "getFilteredMovies replacing");
-                            ((MoviesAdapter) cardsRecyclerView.getAdapter()).replaceMovies(result.getMovies());
-                        }
-                    } else {
-                        Log.d(TAG, "getFilteredMovies adding");
-                        ((MoviesAdapter) cardsRecyclerView.getAdapter()).addMovies(result.getMovies());
-                    }
-                    loadingMoviesBar.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull final Call<MovieResponse> call,
-                                  @NonNull final Throwable t) {
-                loadingMoviesBar.setVisibility(View.GONE);
-                openNoInternetFragment();
-                t.printStackTrace();
-            }
-        });
+        landingPresenter.getMoviesByQuery(text, currentPage);
     }
 
     /**
@@ -191,35 +156,7 @@ public class LandingFragment extends Fragment {
      */
     public void getMoviesByPopularity() {
         loadingMoviesBar.setVisibility(View.VISIBLE);
-        final RestClient.TMDBService service = RestClient.getTMBDService();
-        final Call<MovieResponse> call = service.moviesByPopularity(Constants.TMBD_API_KEY, currentPage);
-        Log.d(TAG, "getMovies call = " + call.request().toString());
-        call.enqueue(new Callback<MovieResponse>() {
-
-            @Override
-            public void onResponse(@NonNull final Call<MovieResponse> call,
-                                   @NonNull final Response<MovieResponse> response) {
-                Log.d(TAG, "getMovies Status Code = " + response.code());
-                if (response.isSuccessful()) {
-                    final MovieResponse result = response.body();
-                    loadingMoviesBar.setVisibility(View.GONE);
-                    if (currentPage == 1) {
-                        ((MoviesAdapter) cardsRecyclerView.getAdapter()).replaceMovies(result.getMovies());
-                    } else {
-                        ((MoviesAdapter) cardsRecyclerView.getAdapter()).addMovies(result.getMovies());
-                    }
-                    Log.d(TAG, "getMovies response = " + new Gson().toJson(result));
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull final Call<MovieResponse> call,
-                                  @NonNull final Throwable t) {
-                loadingMoviesBar.setVisibility(View.GONE);
-                openNoInternetFragment();
-                t.printStackTrace();
-            }
-        });
+        landingPresenter.getMoviesByPopularity(currentPage);
     }
 
     private void openNoResultsFragment() {
@@ -238,7 +175,43 @@ public class LandingFragment extends Fragment {
 
     }
 
-    private void openNoInternetFragment() {
+    public FragmentManager getHostFragmentManager() {
+        FragmentManager manager = getFragmentManager();
+        if (manager == null && isAdded()) {
+            manager = getActivity().getSupportFragmentManager();
+        }
+        return manager;
+    }
+
+    @Override
+    public void moviesByQueryReady(final MovieResponse moviesByQuery) {
+        if (currentPage == 1) {
+            if(moviesByQuery.getMovies().isEmpty()) {
+                openNoResultsFragment();
+            } else {
+                Log.d(TAG, "getFilteredMovies replacing");
+                ((MoviesAdapter) cardsRecyclerView.getAdapter()).replaceMovies(moviesByQuery.getMovies());
+            }
+        } else {
+            Log.d(TAG, "getFilteredMovies adding");
+            ((MoviesAdapter) cardsRecyclerView.getAdapter()).addMovies(moviesByQuery.getMovies());
+        }
+        loadingMoviesBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void moviesByPopularityReady(final MovieResponse moviesByPopularity) {
+        loadingMoviesBar.setVisibility(View.GONE);
+        if (currentPage == 1) {
+            ((MoviesAdapter) cardsRecyclerView.getAdapter()).replaceMovies(moviesByPopularity.getMovies());
+        } else {
+            ((MoviesAdapter) cardsRecyclerView.getAdapter()).addMovies(moviesByPopularity.getMovies());
+        }
+        Log.d(TAG, "getMovies response = " + new Gson().toJson(moviesByPopularity));
+    }
+
+    @Override
+    public void connectionError() {
         try {
             getHostFragmentManager()
                     .beginTransaction()
@@ -247,13 +220,5 @@ public class LandingFragment extends Fragment {
         } catch (final NullPointerException e) {
             e.printStackTrace();
         }
-    }
-
-    public FragmentManager getHostFragmentManager() {
-        FragmentManager manager = getFragmentManager();
-        if (manager == null && isAdded()) {
-            manager = getActivity().getSupportFragmentManager();
-        }
-        return manager;
     }
 }
