@@ -1,5 +1,6 @@
 package mguell.sample_tmbd.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +15,11 @@ import android.widget.ProgressBar;
 import com.google.gson.Gson;
 import com.guell.mauricio.sample_tmbd.R;
 
+import javax.inject.Inject;
+
+import mguell.sample_tmbd.App;
 import mguell.sample_tmbd.network.MovieResponse;
+import mguell.sample_tmbd.network.RestClient;
 import mguell.sample_tmbd.presenter.LandingPresenter;
 import mguell.sample_tmbd.utils.RecyclerViewMargin;
 
@@ -29,7 +34,7 @@ import butterknife.ButterKnife;
  * Created by Mauricio on 17/05/2017.
  */
 
-public class LandingFragment extends Fragment implements LandingPresenter.MoviePresenterListener {
+public class LandingFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
     private int currentPage;
@@ -49,6 +54,12 @@ public class LandingFragment extends Fragment implements LandingPresenter.MovieP
     @BindDimen(R.dimen.distance_between_recycler_view_items)
     public int distanceBetweenItems;
 
+    @Inject
+    RestClient.TMDBService service;
+
+    @Inject
+    Context context;
+
     private LandingPresenter landingPresenter;
 
     @Override
@@ -57,15 +68,16 @@ public class LandingFragment extends Fragment implements LandingPresenter.MovieP
                              final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.landing_fragment, container, false);
         ButterKnife.bind(this, view);
+        ((App) getActivity().getApplication()).getAppComponent().inject(this);
+        this.landingPresenter = new LandingPresenter(this, service);
         initializePage();
         queryText = getArguments().getString(queryTextKey, "");
-        landingPresenter = new LandingPresenter(this);
         if(queryText.isEmpty()) {
             getMoviesByPopularity();
         } else {
             getMoviesByQuery(queryText);
         }
-        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         cardsRecyclerView.setLayoutManager(layoutManager);
         cardsRecyclerView.setHasFixedSize(true);
         cardsRecyclerView.setAdapter(new MoviesAdapter());
@@ -107,7 +119,7 @@ public class LandingFragment extends Fragment implements LandingPresenter.MovieP
     private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
-            if (isLastItemDisplaying()) {
+            if (isLastItemDisplaying() && !loadingMoviesBar.isShown()) {
                 Log.d(TAG, "Bottom reach");
                 currentPage++;
                 if(queryText.isEmpty()) {
@@ -126,12 +138,16 @@ public class LandingFragment extends Fragment implements LandingPresenter.MovieP
      */
     private boolean isLastItemDisplaying() {
         if (cardsRecyclerView.getAdapter().getItemCount() != 0) {
-            final int lastVisibleItemPosition = ((LinearLayoutManager) cardsRecyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-            if (lastVisibleItemPosition != RecyclerView.NO_POSITION && lastVisibleItemPosition == cardsRecyclerView.getAdapter().getItemCount() - 1)
+            final LinearLayoutManager layoutManager = ((LinearLayoutManager) cardsRecyclerView.getLayoutManager());
+            final int visibleItemCount = layoutManager.getChildCount();
+            final int totalItemCount = layoutManager.getItemCount();
+            final int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+            if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0)
                 return true;
         }
         return false;
     }
+
 
     /**
      * Scrolls the recyclerView to its top.
@@ -183,7 +199,6 @@ public class LandingFragment extends Fragment implements LandingPresenter.MovieP
         return manager;
     }
 
-    @Override
     public void moviesByQueryReady(final MovieResponse moviesByQuery) {
         if (currentPage == 1) {
             if(moviesByQuery.getMovies().isEmpty()) {
@@ -199,7 +214,6 @@ public class LandingFragment extends Fragment implements LandingPresenter.MovieP
         loadingMoviesBar.setVisibility(View.GONE);
     }
 
-    @Override
     public void moviesByPopularityReady(final MovieResponse moviesByPopularity) {
         loadingMoviesBar.setVisibility(View.GONE);
         if (currentPage == 1) {
@@ -210,7 +224,6 @@ public class LandingFragment extends Fragment implements LandingPresenter.MovieP
         Log.d(TAG, "getMovies response = " + new Gson().toJson(moviesByPopularity));
     }
 
-    @Override
     public void connectionError() {
         try {
             getHostFragmentManager()

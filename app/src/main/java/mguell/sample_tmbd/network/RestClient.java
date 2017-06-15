@@ -1,5 +1,8 @@
 package mguell.sample_tmbd.network;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
+import io.reactivex.Observable;
 import mguell.sample_tmbd.utils.Constants;
 
 import retrofit2.Call;
@@ -22,6 +25,7 @@ public class RestClient {
             final Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.TMDB_API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
             mTMBDService = retrofit.create(TMDBService.class);
         }
@@ -39,8 +43,8 @@ public class RestClient {
          */
         @Headers("Content-Type: application/json;charset=utf-8")
         @GET("movie/popular")
-        Call<MovieResponse> moviesByPopularity(@Query("api_key") String apiKey,
-                                               @Query("page") int page);
+        Observable<MovieResponse> moviesByPopularity(@Query("api_key") String apiKey,
+                                                     @Query("page") int page);
 
         /**
          * Returns the movies that more closely match to the query.
@@ -53,8 +57,8 @@ public class RestClient {
          */
         @Headers("Content-Type: application/json;charset=utf-8")
         @GET("search/movie")
-        Call<MovieResponse> moviesByQuery(@Query("api_key") String apiKey,
-                                          @Query("query") String query,
-                                          @Query("page") int page);
+        Observable<MovieResponse> moviesByQuery(@Query("api_key") String apiKey,
+                                                @Query("query") String query,
+                                                @Query("page") int page);
     }
 }

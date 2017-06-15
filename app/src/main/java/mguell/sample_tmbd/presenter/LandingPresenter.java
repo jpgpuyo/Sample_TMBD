@@ -1,13 +1,24 @@
 package mguell.sample_tmbd.presenter;
 
-import android.support.annotation.NonNull;
 
+import android.util.Log;
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+import javax.inject.Inject;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.subscribers.DefaultSubscriber;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import mguell.sample_tmbd.App;
 import mguell.sample_tmbd.network.MovieResponse;
 import mguell.sample_tmbd.network.RestClient;
 import mguell.sample_tmbd.utils.Constants;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import mguell.sample_tmbd.view.LandingFragment;
 
 /**
  * Presenter for managing the LandingFragment api calls.
@@ -15,19 +26,15 @@ import retrofit2.Response;
 
 public class LandingPresenter {
 
-    private final MoviePresenterListener mListener;
-    private final RestClient.TMDBService mService;
+    private final LandingFragment view;
 
-    public interface MoviePresenterListener {
+    private final RestClient.TMDBService service;
 
-        void moviesByQueryReady(final MovieResponse moviesByQuery);
-        void moviesByPopularityReady(final MovieResponse moviesByPopularity);
-        void connectionError();
-    }
+    private final String TAG = LandingPresenter.class.getSimpleName();
 
-    public LandingPresenter(final MoviePresenterListener listener){
-        this.mListener = listener;
-        this.mService = RestClient.getTMBDService();
+    public LandingPresenter(final LandingFragment view, final RestClient.TMDBService service) {
+        this.view = view;
+        this.service = service;
     }
 
     /**
@@ -37,53 +44,68 @@ public class LandingPresenter {
      * @param text String with the text that is going to be compared to the movie titles.
      */
     public void getMoviesByQuery(final String text, final int currentPage) {
-        final Call<MovieResponse> call = mService.moviesByQuery(Constants.TMBD_API_KEY, text, currentPage);
-        call.enqueue(new Callback<MovieResponse>() {
+        final Observable<MovieResponse> call = service.moviesByQuery(Constants.TMBD_API_KEY, text, currentPage);
+        call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MovieResponse>() {
 
-            @Override
-            public void onResponse(@NonNull final Call<MovieResponse> call,
-                                   @NonNull final Response<MovieResponse> response) {
-                if (response.isSuccessful()) {
-                    final MovieResponse result = response.body();
-                    if(result != null) {
-                        mListener.moviesByQueryReady(result);
+                    @Override
+                    public void onSubscribe(final Disposable d) {
+                        Log.i(TAG, "getMoviesByQuery subscribed");
                     }
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull final Call<MovieResponse> call,
-                                  @NonNull final Throwable t) {
-                t.printStackTrace();
-                mListener.connectionError();
-            }
-        });
+                    @Override
+                    public void onNext(final MovieResponse moviesResponse) {
+                        if(moviesResponse != null) {
+                            view.moviesByQueryReady(moviesResponse);
+                        }
+                    }
+
+                    @Override
+                    public void onError(final Throwable t) {
+                        t.printStackTrace();
+                        view.connectionError();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i(TAG, "getMoviesByQuery completed");
+                    }
+                });
     }
 
     /**
      * Fills the RecyclerView adapter with the most popular movies from TMDB.
      */
     public void getMoviesByPopularity(final int currentPage) {
-        final Call<MovieResponse> call = mService.moviesByPopularity(Constants.TMBD_API_KEY, currentPage);
-        call.enqueue(new Callback<MovieResponse>() {
+        Log.i(TAG, "Cargando página: " + currentPage);
+        final Observable<MovieResponse> call = service.moviesByPopularity(Constants.TMBD_API_KEY, currentPage);
+        call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MovieResponse>() {
 
-            @Override
-            public void onResponse(@NonNull final Call<MovieResponse> call,
-                                   @NonNull final Response<MovieResponse> response) {
-                if (response.isSuccessful()) {
-                    final MovieResponse result = response.body();
-                    if(result != null) {
-                        mListener.moviesByPopularityReady(result);
+                    @Override
+                    public void onSubscribe(final Disposable d) {
+                        Log.i(TAG, "getMoviesByPopularity subscribed");
                     }
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull final Call<MovieResponse> call,
-                                  @NonNull final Throwable t) {
-                t.printStackTrace();
-                mListener.connectionError();
-            }
-        });
+                    @Override
+                    public void onNext(final MovieResponse moviesResponse) {
+                        if(moviesResponse != null) {
+                            view.moviesByPopularityReady(moviesResponse);
+                        }
+                    }
+
+                    @Override
+                    public void onError(final Throwable t) {
+                        t.printStackTrace();
+                        view.connectionError();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i(TAG, "getMoviesByPopularity completed");
+                    }
+                });
     }
 }
