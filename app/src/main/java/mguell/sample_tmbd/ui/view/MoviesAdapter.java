@@ -1,4 +1,4 @@
-package mguell.sample_tmbd.view;
+package mguell.sample_tmbd.ui.view;
 
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +30,7 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
  * Created by Mauricio on 19/05/2017.
  */
 
-class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
     private final List<Movie> mMovies;
 
@@ -40,16 +40,16 @@ class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> 
         this.mMovies = movies;
     }
 
-    MoviesAdapter() {
+    public MoviesAdapter() {
         this(new ArrayList<Movie>(0));
     }
 
-    void addMovies(final List<Movie> movies) {
+    public void addMovies(final List<Movie> movies) {
         mMovies.addAll(movies);
         notifyDataSetChanged();
     }
 
-    void replaceMovies(final List<Movie> movies) {
+    public void replaceMovies(final List<Movie> movies) {
         mMovies.clear();
         addMovies(movies);
     }

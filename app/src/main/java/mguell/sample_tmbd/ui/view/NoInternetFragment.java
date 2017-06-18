@@ -1,4 +1,4 @@
-package mguell.sample_tmbd.view;
+package mguell.sample_tmbd.ui.view;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -12,9 +12,9 @@ import android.view.MenuItem;
 
 import com.guell.mauricio.sample_tmbd.R;
 
-import mguell.sample_tmbd.view.LandingFragment;
-import mguell.sample_tmbd.view.NoInternetFragment;
-import mguell.sample_tmbd.view.NoResultsFragment;
+import mguell.sample_tmbd.ui.view.LandingFragment;
+import mguell.sample_tmbd.ui.view.NoInternetFragment;
+import mguell.sample_tmbd.ui.view.NoResultsFragment;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -62,10 +62,13 @@ public class MainActivity extends AppCompatActivity implements NoInternetFragmen
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                Log.d(TAG, String.format("%s: %s", "Typing", newText));
+                if(newText.isEmpty()) {
+                    Log.i("Typing", "empty");
+                }
+                Log.i("Typing", newText);
                 final Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
                 if(currentFragment instanceof LandingFragment) {
-                    ((LandingFragment) currentFragment).setQueryText(newText);
+                    ((LandingFragment) currentFragment).getLandingPresenter().setQueryText(newText);
                 } else if (currentFragment instanceof NoResultsFragment) {
                     openLandingFragment();
                 }
