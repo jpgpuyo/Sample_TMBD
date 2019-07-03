@@ -1,7 +1,9 @@
 package com.guell.mauricio.sample_tmbd;
 
 
-import androidx.test.runner.AndroidJUnit4;
+
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
