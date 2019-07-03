@@ -1,18 +1,17 @@
 package com.guell.mauricio.sample_tmbd;
 
-import android.support.test.runner.AndroidJUnit4;
 
-import mguell.sample_tmbd.utils.StringUtils;
+import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import mguell.sample_tmdb.utils.StringUtils;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Test for StringUtils.
- *
- * Created by Mauricio on 23/05/2017.
  */
 
 @RunWith(AndroidJUnit4.class)
@@ -23,7 +22,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processBoldHtmlText() throws Exception {
+    public void processBoldHtmlText() {
         final String htmlBoldText = "<b>Bold text.</b>";
         final String expectedProcessingResult = "Bold text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlBoldText));
@@ -34,7 +33,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processItalicHtmlText() throws Exception {
+    public void processItalicHtmlText() {
         final String htmlItalicText = "<i>Italic text.</i>";
         final String expectedProcessingResult = "Italic text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlItalicText));
@@ -45,7 +44,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processCitationHtmlText() throws Exception {
+    public void processCitationHtmlText() {
         final String htmlCitationText = "<cite>Citation text.</cite>";
         final String expectedProcessingResult = "Citation text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlCitationText));
@@ -56,7 +55,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processEmphasizedHtmlText() throws Exception {
+    public void processEmphasizedHtmlText() {
         final String htmlEmphasizedText = "<em>Emphasized text.</em>";
         final String expectedProcessingResult = "Emphasized text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlEmphasizedText));
@@ -67,7 +66,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processCodeHtmlText() throws Exception {
+    public void processCodeHtmlText() {
         final String htmlCodeText = "<code style=\"color:black\">Code text.</code>";
         final String expectedProcessingResult = "Code text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlCodeText));
@@ -80,7 +79,7 @@ public class StringUtilsTest {
      * @see [[StringUtils.processHtmlString()]]
      */
     @Test
-    public void processBigHtmlText() throws Exception {
+    public void processBigHtmlText() {
         final String htmlBigText = "<big>Big text.</big>";
         final String expectedProcessingResult = "Big text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlBigText));
@@ -91,7 +90,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processSmallHtmlText() throws Exception {
+    public void processSmallHtmlText() {
         final String htmlSmallText = "<small>Small text.</small>";
         final String expectedProcessingResult = "Small text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlSmallText));
@@ -102,7 +101,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processDeleteHtmlText() throws Exception {
+    public void processDeleteHtmlText() {
         final String htmlDeleteText = "<del>Delete this text.</del>";
         final String expectedProcessingResult = "Delete this text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlDeleteText));
@@ -113,7 +112,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processInsertHtmlText() throws Exception {
+    public void processInsertHtmlText() {
         final String htmlInsertText = "<ins>Insert this text.</ins>";
         final String expectedProcessingResult = "Insert this text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlInsertText));
@@ -124,7 +123,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processKeyboardHtmlText() throws Exception {
+    public void processKeyboardHtmlText() {
         final String htmlKeyboardText = "<kbd>Keyboard text - text to be entered by the user.</kbd>";
         final String expectedProcessingResult = "Keyboard text - text to be entered by the user.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlKeyboardText));
@@ -135,7 +134,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processQuotationHtmlText() throws Exception {
+    public void processQuotationHtmlText() {
         final String htmlQuotationText = "<q>Quotation text.</q>";
         final String expectedProcessingResult = "Quotation text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlQuotationText));
@@ -146,7 +145,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processSampleHtmlText() throws Exception {
+    public void processSampleHtmlText() {
         final String htmlSampleText = "<samp>Sample text (output from a computer program).</samp>";
         final String expectedProcessingResult = "Sample text (output from a computer program).";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlSampleText));
@@ -157,7 +156,7 @@ public class StringUtilsTest {
      * The method must return a normal String.
      */
     @Test
-    public void processVariableHtmlText() throws Exception {
+    public void processVariableHtmlText() {
         final String htmlVariableText = "<var>Variable text.</var>";
         final String expectedProcessingResult = "Variable text.";
         assertEquals(expectedProcessingResult, StringUtils.processHtmlString(htmlVariableText));

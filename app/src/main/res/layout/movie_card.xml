@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/movie_card"
         android:layout_width="@dimen/movie_card_width"
         android:layout_height="wrap_content"
@@ -17,48 +17,48 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/card_movie_title_and_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginEnd="@dimen/movie_title_margin"
-                android:layout_marginLeft="@dimen/movie_title_margin"
-                android:layout_marginRight="@dimen/movie_title_margin"
                 android:layout_marginStart="@dimen/movie_title_margin"
+                android:layout_marginLeft="@dimen/movie_title_margin"
                 android:layout_marginTop="@dimen/movie_title_margin"
+                android:layout_marginEnd="@dimen/movie_title_margin"
+                android:layout_marginRight="@dimen/movie_title_margin"
                 android:gravity="center"
                 android:text="@string/sample_title_and_year"
                 android:textSize="@dimen/subheading_text_size"
                 android:textStyle="bold" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/card_movie_poster"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/movie_poster_height"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@+id/card_movie_title_and_year"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/movie_poster_margin_top"
                 app:srcCompat="@drawable/sample_image" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/card_movie_overview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_movie_poster"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/movie_overview_top_bottom_margin"
-                android:layout_marginEnd="@dimen/movie_overview_side_margin"
-                android:layout_marginLeft="@dimen/movie_overview_side_margin"
-                android:layout_marginRight="@dimen/movie_overview_side_margin"
                 android:layout_marginStart="@dimen/movie_overview_side_margin"
+                android:layout_marginLeft="@dimen/movie_overview_side_margin"
                 android:layout_marginTop="@dimen/movie_overview_top_bottom_margin"
+                android:layout_marginEnd="@dimen/movie_overview_side_margin"
+                android:layout_marginRight="@dimen/movie_overview_side_margin"
+                android:layout_marginBottom="@dimen/movie_overview_top_bottom_margin"
                 android:gravity="center"
                 android:text="@string/sample_overview"
                 android:textSize="@dimen/movie_overview_text_size" />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 </LinearLayout>

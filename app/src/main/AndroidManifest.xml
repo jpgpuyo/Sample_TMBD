@@ -5,14 +5,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="mguell.sample_tmbd.App"
+        android:name="mguell.sample_tmdb.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_movie_db"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="mguell.sample_tmbd.MainActivity">
+        <activity android:name="mguell.sample_tmdb.presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
