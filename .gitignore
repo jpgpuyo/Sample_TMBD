@@ -11,3 +11,9 @@ libs/
 .idea/encodings.xml
 .idea/gradle.xml
 .idea/markdown-exported-files.xml
+.idea/compiler.xml
+.idea/runConfigurations.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/markdown-navigator/profiles_settings.xml
+.idea/markdown-navigator.xml
