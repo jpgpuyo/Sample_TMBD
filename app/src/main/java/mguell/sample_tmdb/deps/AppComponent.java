@@ -1,17 +1,30 @@
 package mguell.sample_tmdb.deps;
 
 
+import android.app.Application;
+
 import javax.inject.Singleton;
 
+import dagger.BindsInstance;
 import dagger.Component;
-import mguell.sample_tmdb.presentation.view.landing.LandingView;
-import mguell.sample_tmdb.presentation.view.no_internet.NoInternetFragment;
+import dagger.android.AndroidInjectionModule;
+import mguell.sample_tmdb.App;
 
 
 @Singleton
-@Component(modules = {AppModule.class})
+@Component(modules = {
+        AndroidInjectionModule.class,
+        AppModule.class,
+        ActivityModule.class})
 public interface AppComponent {
 
-    void inject(LandingView landingView);
-    void inject(NoInternetFragment noInternetFragment);
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder application(Application application);
+
+        AppComponent build();
+    }
+
+    void inject(App app);
 }

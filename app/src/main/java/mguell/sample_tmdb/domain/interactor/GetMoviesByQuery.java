@@ -11,8 +11,8 @@ public class GetMoviesByQuery extends UseCase<List<Movie>, GetMoviesByQuery.Para
 
     private final MovieRepository movieRepository;
 
-    public GetMoviesByQuery() {
-        this.movieRepository = new MovieDataRepository();
+    public GetMoviesByQuery(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
     }
 
     @Override

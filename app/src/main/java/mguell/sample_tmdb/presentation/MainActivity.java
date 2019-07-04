@@ -5,7 +5,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -23,7 +22,7 @@ import mguell.sample_tmdb.utils.Constants;
  * Manager of the application. Contains the main layout that will be filled with
  * the different Fragment objects.
  */
-public class MainActivity extends AppCompatActivity implements NoInternetFragment.RetryClickListener {
+public class MainActivity extends BaseActivity implements NoInternetFragment.RetryClickListener {
 
     @BindView(R.id.toolbar)
     public Toolbar toolbar;

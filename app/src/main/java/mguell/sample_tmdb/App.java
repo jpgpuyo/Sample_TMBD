@@ -1,29 +1,36 @@
 package mguell.sample_tmdb;
 
+import android.app.Activity;
 import android.app.Application;
 
-import mguell.sample_tmdb.deps.AppComponent;
-import mguell.sample_tmdb.deps.AppModule;
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 import mguell.sample_tmdb.deps.DaggerAppComponent;
 
+public class App extends Application implements HasActivityInjector {
 
-public class App extends Application {
-
-    private AppComponent appComponent;
-
-    public AppComponent getAppComponent() {
-        return appComponent;
-    }
+    @Inject
+    DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        appComponent = initDagger(this);
+        initDagger();
     }
 
-    protected AppComponent initDagger(App application) {
-        return DaggerAppComponent.builder()
-                .appModule(new AppModule(application))
-                .build();
+    protected void initDagger() {
+        DaggerAppComponent
+                .builder()
+                .application(this)
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return activityDispatchingAndroidInjector;
     }
 }

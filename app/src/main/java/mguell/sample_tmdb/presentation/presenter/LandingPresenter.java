@@ -22,7 +22,7 @@ import mguell.sample_tmdb.presentation.view.landing.LandingView;
 
 public class LandingPresenter {
 
-    private final LandingView view;
+    private LandingView view;
 
     private final String TAG = LandingPresenter.class.getSimpleName();
     private final GetMoviesByPopularity getMoviesByPopularity;
@@ -31,11 +31,15 @@ public class LandingPresenter {
     private String queryText;
 
 
-    public LandingPresenter(final LandingView view) {
-        this.view = view;
-        this.getMoviesByPopularity = new GetMoviesByPopularity();
-        this.getMoviesByQuery = new GetMoviesByQuery();
+    public LandingPresenter(GetMoviesByPopularity getMoviesByPopularity,
+                            GetMoviesByQuery getMoviesByQuery) {
+        this.getMoviesByPopularity = getMoviesByPopularity;
+        this.getMoviesByQuery = getMoviesByQuery;
         initializePage();
+    }
+
+    public void setView(LandingView view) {
+        this.view = view;
     }
 
     private void initializePage() {
@@ -57,14 +61,16 @@ public class LandingPresenter {
      * @param newText String with the new value of the queryText.
      */
     public void setQueryText(final String newText) {
-        initializePage();
-        this.queryText = newText;
-        if (this.queryText.isEmpty()) {
-            showMoviesByPopularity();
-        } else {
-            showMoviesByQuery(this.queryText);
+        if (view != null) {
+            initializePage();
+            this.queryText = newText;
+            if (this.queryText.isEmpty()) {
+                showMoviesByPopularity();
+            } else {
+                showMoviesByQuery(this.queryText);
+            }
+            scrollToTop();
         }
-        scrollToTop();
     }
 
     /**
@@ -110,7 +116,7 @@ public class LandingPresenter {
     }
 
     public void scrollMovieList() {
-        if (isLastItemDisplaying() && !view.isLoadingMoviesBarVisible()) {
+        if (view != null && isLastItemDisplaying() && !view.isLoadingMoviesBarVisible()) {
             passPage();
             if (getQueryText().isEmpty()) {
                 showMoviesByPopularity();
@@ -130,12 +136,14 @@ public class LandingPresenter {
         @Override
         public void onError(final Throwable e) {
             e.printStackTrace();
-            view.getParent().openConnectionError();
+            if (view != null) {
+                view.getParent().openConnectionError();
+            }
         }
 
         @Override
         public void onNext(final List<Movie> movieList) {
-            if (movieList != null) {
+            if (view != null && movieList != null) {
                 view.setLoadingMoviesBarVisibility(View.GONE);
                 if (currentPage == 1) {
                     view.replaceMovies(movieList);
@@ -158,7 +166,9 @@ public class LandingPresenter {
         public void onError(final Throwable e) {
             Log.e(TAG, e.toString());
             try {
-                view.getParent().openConnectionError();
+                if (view != null) {
+                    view.getParent().openConnectionError();
+                }
             } catch (final NullPointerException npe) {
                 Log.e(TAG, npe.toString());
             }
@@ -166,7 +176,7 @@ public class LandingPresenter {
 
         @Override
         public void onNext(final List<Movie> movies) {
-            if (movies != null) {
+            if (view != null && movies != null) {
                 if (currentPage == 1) {
                     if (movies.isEmpty()) {
                         try {

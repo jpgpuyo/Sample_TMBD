@@ -1,6 +1,5 @@
 package mguell.sample_tmdb.presentation.view.landing;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,10 +42,10 @@ public class LandingFragment extends BaseFragment implements LandingView {
     public int distanceBetweenItems;
     @BindInt(R.integer.movie_list_column_number)
     int numberOfColumns;
-    @Inject
-    Context context;
 
-    private LandingPresenter landingPresenter;
+    @Inject
+    LandingPresenter landingPresenter;
+
     /**
      * ScrollListener that checks if the last item is displayed, if it is, loads another
      * page of movies, by popularity or by query depending on the current type of search.
@@ -63,19 +62,31 @@ public class LandingFragment extends BaseFragment implements LandingView {
     }
 
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater,
-                             final ViewGroup container,
-                             final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.landing_fragment, container, false);
-        ButterKnife.bind(this, view);
-        getApp().getAppComponent().inject(this);
-        this.landingPresenter = new LandingPresenter(this);
+    public void onStart() {
+        super.onStart();
+        landingPresenter.setView(this);
+
         if (getArguments() != null) {
             this.landingPresenter.setQueryText(getArguments().getString(Constants.QUERY_TEXT_KEY, ""));
         } else {
             this.landingPresenter.setQueryText("");
         }
-        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        landingPresenter.setView(null);
+    }
+
+    @Override
+    public View onCreateView(@NonNull final LayoutInflater inflater,
+                             final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.landing_fragment, container, false);
+        ButterKnife.bind(this, view);
+
+        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         cardsRecyclerView.setLayoutManager(layoutManager);
         cardsRecyclerView.setHasFixedSize(true);
         cardsRecyclerView.setAdapter(new MoviesAdapter());

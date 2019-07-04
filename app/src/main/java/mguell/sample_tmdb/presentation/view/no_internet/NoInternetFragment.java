@@ -14,25 +14,19 @@ import androidx.fragment.app.Fragment;
 
 import com.guell.mauricio.sample_tmbd.R;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTouch;
-import mguell.sample_tmdb.presentation.view.BaseFragment;
 
 /**
  * Represents the connection error Fragment, with an error message and a clickable text
  * to retry the connection.
  */
 
-public class NoInternetFragment extends BaseFragment {
+public class NoInternetFragment extends Fragment {
 
     @BindView(R.id.retry_text)
     TextView retryText;
-
-    @Inject
-    Context context;
 
     private RetryClickListener mCallback;
 
@@ -46,7 +40,6 @@ public class NoInternetFragment extends BaseFragment {
                              final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.no_internet_fragment, container, false);
         ButterKnife.bind(this, view);
-        getApp().getAppComponent().inject(this);
         return view;
     }
 
@@ -73,7 +66,7 @@ public class NoInternetFragment extends BaseFragment {
     @OnTouch(R.id.retry_text)
     boolean retry(final View view, final MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-            retryText.setTextColor(ContextCompat.getColor(context, R.color.accent_dark));
+            retryText.setTextColor(ContextCompat.getColor(getContext(), R.color.accent_dark));
         } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
             mCallback.retryConnection();
         }
