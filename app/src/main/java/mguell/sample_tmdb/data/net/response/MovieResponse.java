@@ -27,4 +27,8 @@ public class MovieResponse {
         }
         return movies;
     }
+
+    public void setMovies(List<MovieEntity> movies) {
+        this.movies = movies;
+    }
 }

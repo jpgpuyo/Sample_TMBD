@@ -1,12 +1,10 @@
-package com.guell.mauricio.sample_tmbd;
+package mguell.sample_tmdb.data.repository;
 
-
-
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import mguell.sample_tmdb.utils.StringUtils;
 
@@ -16,7 +14,8 @@ import static org.junit.Assert.assertEquals;
  * Test for StringUtils.
  */
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = 28)
 public class StringUtilsTest {
 
     /**

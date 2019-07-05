@@ -22,6 +22,11 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
     android.defaultConfig.vectorDrawables.useSupportLibrary = true
 }
 
@@ -37,8 +42,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit-ktx:1.1.1"
     androidTestImplementation "org.mockito:mockito-core:2.21.0"
     androidTestImplementation "com.squareup.retrofit2:retrofit-mock:2.6.0"
-
-
+    testImplementation "org.mockito:mockito-core:2.21.0"
+    testImplementation "org.robolectric:robolectric:4.3"
 
     //Butterknife
     implementation 'com.jakewharton:butterknife:10.1.0'
